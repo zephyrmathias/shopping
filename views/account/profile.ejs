@@ -1,0 +1,94 @@
+<% layout('index') %>
+<script>
+	window.user = <%- JSON.stringify(user) %>
+</script>
+<div class="container main scrollbar roboto" ng-controller="profileCtrl">
+	<div class="row" style="height:50px;background:#000;">
+		<div class="col-md-3 col-xs-6 tabHead" ng-click="tabsVal(1)">PROFILE</div>
+		<div class="col-md-3 col-xs-6 tabHead" ng-click="tabsVal(2)">HISTORY</div>
+	</div>
+
+	<div class="row" style="padding-top:30px;">
+		<div class="col-md-12" ng-show="tabs === 1">
+
+			<div style="margin-bottom:35px">PROFILE</div>
+
+			<form name="projectForm">
+
+		    	<md-input-container class="md-block" style="height:70px">
+		            <label>Email</label>
+		            <input required md-no-asterisk type="email" name="userEmail" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+		            <div ng-messages="projectForm.userEmail.$error" role="alert">
+		                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+		                    Your email must be between 10 and 100 characters.
+		                </div>
+		            </div>
+		        </md-input-container>
+
+		        <md-input-container class="md-block" style="height:70px">
+		            <label>Your First and Last Name</label>
+		            <input md-maxlength="50" required md-no-asterisk name="userName" ng-model="user.name" ng-pattern="/^[A-Z][a-z]*[\s][A-Z][a-z]*$/"/>
+		            <div ng-messages="projectForm.userName.$error">
+		                <div ng-message-exp="['required', 'md-maxlength', 'pattern']">
+		                    Your Name must be like this Abcd Efgh
+		                </div>
+		            </div>
+		        </md-input-container>
+
+		        <md-input-container class="md-block" style="height:70px">
+		            <label>Phone</label>
+		            <input md-no-asterisk name="userPhone" ng-model="user.phone"/>
+		        </md-input-container>
+
+		        <md-input-container class="md-block" style="height:70px">
+		            <label>Address</label>
+		            <input md-no-asterisk name="userAddress" ng-model="user.address.address"/>
+		        </md-input-container>
+
+		        <md-input-container class="md-block col-md-5" style="height:70px;padding-left:0px">
+		            <label>City</label>
+		            <input md-no-asterisk name="userAddress" ng-model="user.address.city"/>
+		        </md-input-container>
+
+		        <md-input-container class="md-block col-md-3 col-xs-6 padding0" style="height:70px;padding-left:0px">
+		            <label>Zip Code</label>
+		            <input md-no-asterisk name="userAddress" ng-model="user.address.zipcode"/>
+		        </md-input-container>
+
+		        <md-button class="md-raised" ng-click="updateProfile()">UPDATE PROFILE</md-button>
+
+    		</form>
+
+		</div>
+
+		<div class="col-md-12" ng-show="tabs === 2">
+			<h2>HISTORY</h2>
+			<div class="col-md-12 col-xs-12 scrollbar" style="height:300px;overflow:auto" ng-repeat="order in orderhistory">
+				<div class="col-md-12 col-xs-12 padding0" style="height:50px;color:#fff;background:#330033;font-size:14px;line-height:50px">Order No: {{order._id}}</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="hidein5s">No.</th>
+							<th>Name</th>
+							<th>Quantity</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="x in order.items">
+							<td class="hidein5s">{{$index + 1}}</td>
+							<td>{{x.item.name}}</td>
+							<td>{{x.quantity}}</td>
+							<td>{{x.price | currency}}</td>
+						</tr>
+						<tr>
+							<td>Total Price : {{order.total | currency}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+	</div>
+</div>

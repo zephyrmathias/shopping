@@ -1,0 +1,247 @@
+<% layout('index') %>
+
+<div class="roboto container padding0 top-margin-mobile" style="background:#fff" ng-controller="allProductsCtrl">
+
+  <div class="col-md-12 col-xs-12 align-center top-product-menu">SOMETHING</div>
+
+  <div class="col-md-9 col-xs-12 padding0 pull-right products-right-side" >
+
+    <div class="col-md-12 col-xs-12 padding0 pull-right">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <div class="item active promo promo1">
+            <div class="carousel-caption">
+              ...
+            </div>
+          </div>
+          <div class="item promo promo2">
+            <div class="carousel-caption">
+              ...
+            </div>
+          </div>
+          <div class="item promo promo3">
+            <div class="carousel-caption">
+              ...
+            </div>
+          </div>
+        </div>
+
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"></a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-3 col-xs-12 pull-left products-left-side">
+    <div class="col-md-12 col-xs-12 filter-left">
+      FILTER GOES HERE
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-9 pull-right" style="margin-bottom:10px">
+    <h4 ng-click="click()">FRUITS 125 ITEMS</h4>
+  </div>
+
+  <div class="col-md-9 col-xs-12 pull-right padding0 product-bg">
+
+    <div class="col-md-3 col-xs-6 product product-mobile">
+
+    <div class="col-md-12 col-xs-12 product product-item padding0 checkmark align-center" ng-show="{{product._id}}_checkmark">
+      <div class="col-md-10 col-xs-10">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 161.2 161.2" enable-background="new 0 0 161.2 161.2" xml:space="preserve">
+        <circle class="path" fill="none" stroke="#fff" stroke-width="4" stroke-miterlimit="10" cx="80.6" cy="80.6" r="62.1"/>
+        <polyline class="path" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="113,52.8
+          74.1,108.4 48.2,86.4 "/>
+        <circle class="spin" fill="none" stroke="#fff" stroke-width="4" stroke-miterlimit="10" stroke-dasharray="12.2175,12.2175" cx="80.6" cy="80.6" r="73.9"/>
+        </svg>
+        <p>ADDED!</p>
+      </div>
+    </div>
+
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="text-center dc align-center">30% OFF!</div>
+        <div class="product-content">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="/../img/products/fruits/bana00.jpg" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              Banana Banana
+            </div>
+            <div class="col-md-12 col-xs-12 product-short-desc">
+              It's a baban dasd dasda;
+            </div>
+          </div>
+          <div class="col-md-7 col-xs-7 padding0 align-center product-price">
+            <div class="col-md-12 col-xs-12 padding0">
+              <div class="col-md-12 col-xs-12 product-price2"><del>$50.00</del></div>
+              <div class="col-md-12 col-xs-12 product-price1">$45.00</div>
+            </div>
+          </div>
+          <div class="col-md-5 col-xs-5 product-buy">
+            <div class="col-md-12 col-xs-12 product-buy-btn align-center">
+              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-xs-6 product product-mobile">
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="product-content">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="/../img/products/fruits/bana00.jpg" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 align-center product-price">
+            <div class="col-md-12 col-xs-12 padding0">
+              <div class="col-md-12 col-xs-12 product-price1">$45.00</div>
+              <div class="col-md-12 col-xs-12 product-price2"><del>$50.00</del></div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              Banana Banana Banana Banana
+            </div>
+          </div>
+          <div class="col-md-10 col-xs-10 col-xs-offset-1 product-buy">
+            <span>ADD TO CART</span>
+          </div>
+        </div>
+        <div class="product-button"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-xs-6 product product-mobile">
+
+    <div class="col-md-12 col-xs-12 product product-item padding0 checkmark align-center" ng-show="checkmark">
+      <div class="col-md-10 col-xs-10">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         viewBox="0 0 161.2 161.2" enable-background="new 0 0 161.2 161.2" xml:space="preserve">
+        <circle class="path" fill="none" stroke="#fff" stroke-width="4" stroke-miterlimit="10" cx="80.6" cy="80.6" r="62.1"/>
+        <polyline class="path" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="113,52.8
+          74.1,108.4 48.2,86.4 "/>
+        <circle class="spin" fill="none" stroke="#fff" stroke-width="4" stroke-miterlimit="10" stroke-dasharray="12.2175,12.2175" cx="80.6" cy="80.6" r="73.9"/>
+        </svg>
+        <p class="checkmark-text">ADDED!</p>
+      </div>
+    </div>
+
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="text-center dc align-center">30% OFF!</div>
+        <div class="product-content">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="/../img/products/fruits/bana00.jpg" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              Banana Banana
+            </div>
+            <div class="col-md-12 col-xs-12 product-short-desc">
+              It's a baban dasd dasda;
+            </div>
+          </div>
+          <div class="col-md-7 col-xs-7 padding0 align-center product-price">
+            <div class="col-md-12 col-xs-12 padding0">
+              <div class="col-md-12 col-xs-12 product-price2"><del>$50.00</del></div>
+              <div class="col-md-12 col-xs-12 product-price1">$45.00</div>
+            </div>
+          </div>
+          <div class="col-md-5 col-xs-5 product-buy">
+            <div class="col-md-12 col-xs-12 product-buy-btn align-center">
+              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-xs-6 product product-mobile">
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="product-content">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="/../img/products/fruits/bana00.jpg" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 align-center product-price">
+            <div class="col-md-12 col-xs-12 padding0">
+              <div class="col-md-12 col-xs-12 product-price1">$45.00</div>
+              <div class="col-md-12 col-xs-12 product-price2"><del>$50.00</del></div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              Banana Banana Banana Banana
+            </div>
+          </div>
+          <div class="col-md-10 col-xs-10 col-xs-offset-1 product-buy">
+            <span>ADD TO CART</span>
+          </div>
+        </div>
+        <div class="product-button"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-xs-6 product product-mobile">
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="product-content">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="/../img/products/fruits/bana00.jpg" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 align-center product-price">
+            <div class="col-md-12 col-xs-12 padding0">
+              <div class="col-md-12 col-xs-12 product-price1">$45.00</div>
+              <div class="col-md-12 col-xs-12 product-price2"><del>$50.00</del></div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              Banana Banana Banana Banana
+            </div>
+          </div>
+          <div class="col-md-10 col-xs-10 col-xs-offset-1 product-buy">
+            <span>ADD TO CART</span>
+          </div>
+        </div>
+        <div class="product-button"></div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-xs-6 product product-mobile">
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="product-content">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="/../img/products/fruits/bana00.jpg" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 align-center product-price">
+            <div class="col-md-12 col-xs-12 padding0">
+              <div class="col-md-12 col-xs-12 product-price1">$45.00</div>
+              <div class="col-md-12 col-xs-12 product-price2"><del>$50.00</del></div>
+            </div>
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              Banana Banana Banana Banana
+            </div>
+          </div>
+          <div class="col-md-10 col-xs-10 col-xs-offset-1 product-buy">
+            <span>ADD TO CART</span>
+          </div>
+        </div>
+        <div class="product-button"></div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

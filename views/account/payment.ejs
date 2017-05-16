@@ -1,0 +1,160 @@
+<% layout('index') %>
+<script>
+	window.user = <%- JSON.stringify(user) %>
+</script>
+
+<div class="container main scrollbar roboto" ng-controller="paymentCtrl">
+  <div class="col-md-12 col-xs-12 padding0 scrollbar" style="height:400px;overflow-y:auto;margin-top:5px;">
+    <h3>BILL</h3><hr>
+    <table class="table table-hover" style="width:100%">
+      <thead style="background:#80d4ff">
+        <tr>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="x in items.items">
+          <td>{{$index + 1}}</td>
+          <td>{{x.item.name}}</td>
+          <td class="text-center">{{x.quantity}}</td>
+          <td>{{x.price | currency}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="align-center payment-loading" ng-show="payment_loading">
+      <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xs-12 scrollbar" style="height:250px;margin-top:20px;border:1px solid #f0f0f0;overflow:auto;">
+
+    <h3>PROFILE</h3>
+
+    <form name="projectForm">
+
+        <md-input-container class="md-block" style="height:70px">
+              <label>Email</label>
+              <input required md-no-asterisk type="email" name="userEmail" ng-model="user.email" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+              <div ng-messages="projectForm.userEmail.$error" role="alert">
+                  <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                      Your email must be between 10 and 100 characters.
+                  </div>
+              </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" style="height:70px">
+              <label>Your First and Last Name</label>
+              <input md-maxlength="50" required md-no-asterisk name="userName" ng-model="user.name" ng-pattern="/^[A-Z][a-z]*[\s][A-Z][a-z]*$/"/>
+              <div ng-messages="projectForm.userName.$error">
+                  <div ng-message-exp="['required', 'md-maxlength', 'pattern']">
+                      Your Name must be like this Abcd Efgh
+                  </div>
+              </div>
+          </md-input-container>
+
+          <md-input-container class="md-block" style="height:70px">
+              <label>Phone</label>
+              <input md-no-asterisk name="userPhone" ng-model="user.phone"/>
+          </md-input-container>
+
+          <md-input-container class="md-block" style="height:70px">
+              <label>Address</label>
+              <input md-no-asterisk name="userAddress" ng-model="user.address.address"/>
+          </md-input-container>
+
+          <md-input-container class="md-block col-md-5" style="height:70px;padding-left:0px">
+              <label>City</label>
+              <input md-no-asterisk name="userAddress" ng-model="user.address.city"/>
+          </md-input-container>
+
+          <md-input-container class="md-block col-md-3 col-xs-6 padding0" style="height:70px;padding-left:0px">
+              <label>Zip Code</label>
+              <input md-no-asterisk name="userAddress" ng-model="user.address.zipcode"/>
+          </md-input-container>
+
+          <md-button class="md-raised" ng-click="updateProfile()">UPDATE PROFILE</md-button>
+      </form>
+
+
+  </div>
+
+  <div class="col-md-5 col-md-offset-1 col-xs-12" style="height:50px;border:1px solid #f0f0f0;margin-top:20px;color:red">
+    <h4>Total Price : {{items.total | currency}}</h4>
+  </div>
+
+  <div class="col-md-5 col-xs-12 col-md-offset-1 paid transitionprop text-center" data-toggle="modal" data-target="#myModal">
+    PAY BY CREDIT CARD
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Pay with Stripe</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><img class="pull-right" src="http://i76.imgup.net/accepted_c22e0.png">Payment Details</h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" id="payment-form" stripe-form="stripeCallback">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="cardNumber">CARD NUMBER</label>
+                                    <div class="input-group">
+                                        <input ng-model="number" placeholder="Card Number" payments-format="card" payments-validate="card" name="card" class="form-control ng-dirty ng-valid-card ng-valid ng-valid-parse ng-touched">
+                                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7 col-md-7">
+                                <div class="form-group">
+                                    <label for="expMonth">EXPIRATION DATE</label>
+                                    <div class="col-xs-12 col-lg-12 pl-ziro">
+                                        <input ng-model="expiry" placeholder="Expiration" payments-format="expiry" payments-validate="expiry" name="expiry" class="form-control ng-pristine ng-untouched ng-valid ng-valid-expiry">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-md-5 pull-right">
+                                <div class="form-group">
+                                    <label for="cvCode">CV CODE</label>
+                                    <input ng-model="cvc" placeholder="CVC" payments-format="cvc" payments-validate="cvc" name="cvc" class="form-control ng-pristine ng-untouched ng-valid ng-valid-cvc">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-success btn-lg btn-block" type="submit">PAY !</button>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-12">
+                                <p class="payment-errors"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

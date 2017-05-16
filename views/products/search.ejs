@@ -1,0 +1,19 @@
+<% layout('index') %>
+
+<div class="container-fluid main scrollbar">
+	<div class="col-md-12 col-xs-12" style="height:50px;line-height:50px;color:#fff;background:#1a1a1a;font-size:18px">SEARCH</div>
+	  <% if (errorMsg.length > 0) { %>
+			<h2>NOT FOUND</h2>
+		<% }
+		else {
+			if (item.length > 0) { %>
+				<div class="col-md-6 col xs-12 padding0" style="height:150px">
+					<img src="<%= item[0].image %>" alt="" class="img-responsive" style="height:150px">
+				</div>
+				<div class="col-md-6 col-xs-12 padding0">
+					<h2><%= item[0].name %></h2>
+					<h4><%= item[0].description %></h4>
+					<h3>PRICE : <%= item[0].price %></h3>
+				</div>
+		<% } } %>
+</div>

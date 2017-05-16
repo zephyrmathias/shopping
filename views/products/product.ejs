@@ -1,0 +1,175 @@
+<% layout('index') %>
+
+<div class="roboto container padding0 main scrollbar" style="background:#fff" ng-controller="productCtrl">
+
+  <div class="col-md-12 col-xs-12 align-center top-product-menu">PRODUCTS</div>
+
+  <div class="col-md-9 col-xs-12 padding0 pull-right products-right-side" >
+
+    <div class="col-md-12 col-xs-12 padding0 pull-right promo" style="background:url({{products[0].category.image}})">
+    </div>
+
+  </div>
+
+  <div class="col-md-3 col-xs-12 pull-left products-left-side">
+
+    <div class="col-md-12 col-xs-12 padding0 filter-left">
+
+      <div class="col-md-12 col-xs-12 filter-menu">FILTER</div>
+
+      <div class="hidefilter">
+        <div class="col-md-12 col-xs-12 filter-price-range">
+          MAXIMUM PRICE:
+          <md-slider flex class="md-primary" md-discrete ng-model="maxprice" step="1" min="1" max="100" aria-label="rating">
+          </md-slider>
+        </div>
+      </div>
+
+      <div class="hidefilter">
+        <div class="col-md-12 col-xs-12 filter-price-range">
+          SORT BY: <br>
+          <md-checkbox ng-model="sortprice" ng-click="sortbyprice()">
+            PRICE
+          </md-checkbox>
+          <md-checkbox ng-model="sortdc" ng-click="sortbydc()">
+            DISCOUNT
+          </md-checkbox>
+          <md-checkbox ng-model="sortname" ng-click="sortbyname()">
+            NAME
+          </md-checkbox>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-xs-12 col-md-9 pull-right" style="margin-bottom:10px">
+    <h4>{{products[0].category.name}} ( {{product_length}} Items)</h4>
+  </div>
+
+  <div class="col-md-9 col-xs-12 pull-right padding0 product-bg">
+    <div class="col-md-3 col-xs-6 product product-mobile" ng-repeat="product in products | filter:priceRange | orderBy:predicate">
+      <div class="col-md-12 col-xs-12 product-item padding0">
+        <div class="text-center dc align-center" ng-class="{'hide':(product.discount === 0)}">{{product.discount}}% OFF!</div>
+        <div class="product-content" ng-click="showAdvanced($event, product)">
+          <div class="col-md-12 col-xs-12 product-img padding0">
+            <img src="{{product.image}}" alt="" class="img-responsive">
+          </div>
+          <div class="col-md-12 col-xs-12 padding0 product-detail">
+            <div class="col-md-12 col-xs-12 product-name">
+              {{product.name}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 col-xs-12 product-qty">
+          <md-input-container class="md-block" flex-gt-sm style="margin-top:-5px">
+            <md-select ng-model="kg" ng-init="kg = 1" placeholder="Kilograms">
+              <md-optgroup label="Kilograms">
+                <md-option ng-repeat="kg in kilograms" value="{{kg}}">
+                  {{kg}} kgs
+                </md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-md-7 col-xs-7 padding0 align-center product-price">
+          <div class="col-md-12 col-xs-12 padding0">
+            <div class="col-md-12 col-xs-12 product-price2" ng-class="{'hide':(product.discount === 0)}"><del>{{product.price *kg | currency}}</del></div>
+            <div class="col-md-12 col-xs-12 product-price1" style="color: #ff0000;" ng-class="{'hide':(product.discount === 0)}">{{product.price * (100 - product.discount)/100 *kg | currency}}</div>
+            <div class="col-md-12 col-xs-12 product-price1" ng-class="{'hide':(product.discount !== 0)}">{{product.price * kg| currency	}}</div>
+          </div>
+        </div>
+        <div class="col-md-5 col-xs-5 product-buy">
+          <div class="col-md-12 col-xs-12 product-buy-btn align-center" ng-click="addtocart(product,kg)">
+            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xs-12 checkmark align-center" ng-show="checkmark === product._id">
+        <div class="col-md-10 col-xs-10">
+          <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 161.2 161.2" enable-background="new 0 0 161.2 161.2" xml:space="preserve">
+          <circle class="path" fill="none" stroke="#1aa3ff" stroke-width="4" stroke-miterlimit="10" cx="80.6" cy="80.6" r="62.1"/>
+          <polyline class="path" fill="none" stroke="#1aa3ff" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="113,52.8
+            74.1,108.4 48.2,86.4 "/>
+          <circle class="spin" fill="none" stroke="#1aa3ff" stroke-width="4" stroke-miterlimit="10" stroke-dasharray="12.2175,12.2175" cx="80.6" cy="80.6" r="73.9"/>
+          </svg>
+          <p class="checkmark-text">ADDED!</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="align-center product-loading roboto" ng-show="loading">
+      <md-progress-circular md-mode="indeterminate" class="md-primary md-hue-1"></md-progress-circular>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="product-detail.tmpl.html">
+  <md-dialog class="roboto" aria-label="Mango (Fruit)">
+  <form>
+    <div class="center-screen align-center loading roboto" ng-show="loading" style="z-index:999999999">
+      <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
+    </div>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{eachProduct.name}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="/img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width:600px;max-height:810px; ">
+      <div class="col-md-6 col-xs-12 align-center" style="margin-top:10px">
+        <img src="{{eachProduct.image}}" alt="" class="eachProduct-img img-responsive">
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <h3>{{eachProduct.name}}</h3>
+        <p>{{eachProduct.description}}</p>
+        <div class="col-md-12 col-xs-12 padding0 roboto" style="font-size:16px;margin-top:18px">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Kilograms</label>
+            <md-select ng-model="kg" ng-init="kg = 1" placeholder="Kilograms">
+              <md-optgroup label="Kilograms">
+                <md-option ng-repeat="kg in kilograms" value="{{kg}}">
+                  {{kg}} Kilograms
+                </md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="col-md-12 col-xs-12 padding0" style="margin-bottom:20px">
+          <div class="col-md-12 col-xs-12 padding0" style="margin-bottom:10px">
+            <div class="col-md-6 col-xs-6 padding0"><h4>Price : </h4></div>
+            <div class="col-md-6 col-xs-6 padding0 align-center" ng-class="{'hide':(eachProduct.discount === 0)}">
+              <div class="col-md-10 col-xs-10 col-xs-offset-2 col-md-offset-4 align-center eachProduct-savemore padding0">
+                <h6>SAVE {{eachProduct.discount}}%</h6>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-7 col-xs-7 padding0">
+            <div class="col-md-12 col-xs-12 padding0 eachProduct-price2" ng-class="{'hide':(eachProduct.discount === 0)}"><del>{{eachProduct.price * kg| currency}}</del></div>
+            <div class="col-md-12 col-xs-12 padding0 eachProduct-price1" style="color: #ff0000;" ng-class="{'hide':(eachProduct.discount === 0)}">
+              {{eachProduct.price * (100 - eachProduct.discount)/100 * kg | currency}}
+            </div>
+            <div class="col-md-12 col-xs-12 padding0 eachProduct-price1" ng-class="{'hide':(eachProduct.discount !== 0)}">{{eachProduct.price * kg | currency	}}</div>
+          </div>
+
+          <div class="col-md-5 col-xs-5 product-buy" style="padding-right:0;">
+            <div class="col-md-12 col-xs-12 product-buy-btn align-center" style="height:50px;margin-top:-10px;" ng-click="addtoCart()">
+              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </md-dialog-content>
+  </form>
+</md-dialog>
+</script>

@@ -1,0 +1,236 @@
+<% layout('index') %>
+
+<div class="container-fluid main scrollbar roboto padding0" ng-controller="adminCtrl">
+  <div class="col-md-12 col-xs-12 padding0" style="height:50px;line-height:50px;font-size:14px;color:#fff;">
+    <div class="col-md-3 col-xs-3 padding0 text-center adminMenu transitionprop" ng-class="{'adminClicked':tab===1}" ng-click="tabVal(1)">CATEGORY</div>
+    <div class="col-md-3 col-xs-3 padding0 text-center adminMenu transitionprop" ng-class="{'adminClicked':tab===2}" ng-click="tabVal(2)">PRODUCT</div>
+    <div class="col-md-3 col-xs-3 padding0 text-center adminMenu transitionprop" ng-class="{'adminClicked':tab===5 || tab===6}" ng-click="tabVal(5)">EDIT</div>
+    <div class="col-md-3 col-xs-3 padding0 text-center adminMenu transitionprop" ng-class="{'adminClicked':tab===3 || tab===4}" ng-click="tabVal(3)">ORDER</div>
+  </div>
+
+  <div class="col-md-12 col-xs-12" ng-show="tab===1">
+    <h3>ADD CATEGORY</h3>
+    <hr>
+    <form class="form-group col-xs-12 col-md-offset-3 col-md-6 padding0" style="list-style:none">
+      <% if (categoryMsg.length > 0) { %>
+        <li style="padding:0 25px">
+          <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <%= categoryMsg %>
+          </div>
+        </li>
+      <% } %>
+      <label for="category">New Category:</label>
+      <input type="text" class="form-control" id="category" placeholder="Category Name" ng-model="categoryName">
+      <br>
+      <label for="promopic">Picture: </label>
+      <input type="text" class="form-control" id="promopic" placeholder="Picture" ng-model="categoryImage">
+      <br>
+      <button type="submit" class="btn btn-default" ng-click="addCategory()">ADD CATEGORY</button>
+    </form>
+
+    <div class="col-md-12 col-xs-12 padding0">
+      <h3>EDIT CATEGORY</h3>
+      <hr>
+      <form class="form-group col-xs-12 col-md-offset-3 col-md-6 padding0" style="list-style:none">
+        <span>Category: </span>
+        <select class="form-control" ng-model="categoryEdit.id">
+          <% for(var i=0;i<categories.length;i++) { %>
+            <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+          <% } %>
+        </select>
+        <br>
+        <label for="category">Category Name:</label>
+        <input type="text" class="form-control" id="category" placeholder="Category Name" ng-model="categoryEdit.name">
+        <br>
+        <label for="promopic">Category Picture: </label>
+        <input type="text" class="form-control" id="promopic" placeholder="Picture" ng-model="categoryEdit.picture">
+        <br>
+        <button type="submit" class="btn btn-primary" ng-click="editCategory()">SAVE</button>
+        <button type="submit" class="btn btn-danger" ng-click="deleteCategory(categoryEdit.id)">REMOVE</button>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="col-md-12 col-xs-12" ng-show="tab===2">
+    <h3>ADD PRODUCT</h3>
+    <hr>
+    <form class="form-group col-xs-12 col-md-offset-3 col-md-6 padding0" style="list-style:none">
+      <% if (productMsg.length > 0) { %>
+        <li style="padding:0 25px">
+          <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <%= productMsg %>
+          </div>
+        </li>
+      <% } %>
+      <span>Category: </span>
+      <select class="form-control" ng-model="productCategory">
+        <% for(var i=0;i<categories.length;i++) { %>
+          <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+        <% } %>
+      </select>
+      <br>
+      <label for="productName">Product Name:</label>
+      <input type="text" class="form-control" id="productName" placeholder="Category Name" ng-model="productName">
+      <br>
+      <label for="productImage">Picture: </label>
+      <input type="text" class="form-control" id="productImage" placeholder="Image" ng-model="productImage">
+      <br>
+      <label for="productType">Type: </label>
+      <input type="text" class="form-control" id="productType" placeholder="Type" ng-model="productType">
+      <br>
+      <label for="productDescription">Description: </label>
+      <input type="text" class="form-control" id="productDescription" placeholder="Description" ng-model="productDescription">
+      <br>
+      <label for="productPrice">Price: </label>
+      <input type="text" class="form-control" id="productPrice" placeholder="Price" ng-model="productPrice">
+      <br>
+      <label for="productDiscount">Discount: </label>
+      <input type="text" class="form-control" id="productDiscount" placeholder="Discount" ng-model="productDiscount">
+      <br>
+      <label for="productQuantity">Quantity: </label>
+      <input type="text" class="form-control" id="productQuantity" placeholder="Quantity" ng-model="productQuantity">
+      <br>
+      <button type="submit" class="btn btn-default" ng-click="addProduct()">ADD PRODUCT</button>
+    </form>
+  </div>
+
+  <div class="col-md-12 col-xs-10" ng-show="tab===3">
+    <h3>NEW ORDERS</h3>
+    <hr>
+
+    <table class="table table-hover col-md-8 col-xs-12 padding0">
+      <thead>
+        <tr>
+          <td class="hidein5s">No.</td>
+          <td>Order</td>
+          <td>Date</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="order in orders | orderBy:'-date'" ng-click="viewOrder(order)">
+          <td class="hidein5s">{{$index+1}}</td>
+          <td><div class="col-md-12 col-xs-8 padding0" style="overflow: hidden;text-overflow: ellipsis;">{{order._id}}</div></td>
+          <td>{{order.date | date:'medium'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="col-md-12 col-xs-12" ng-show="tab===4">
+    <h3>ORDER</h3>
+    <hr>
+
+    <div class="col-md-12 col-xs-12" style="height:50px;color:#fff;background:#330033;font-size:14px;line-height:50px">Order No: {{eachorder._id}}</div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="hidein5s">No.</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="x in eachorder.items">
+            <td class="hidein5s">{{$index + 1}}</td>
+            <td>{{x.item.name}}</td>
+            <td>{{x.quantity}}</td>
+            <td>{{x.price | currency}}</td>
+          </tr>
+          <td>Total Price : {{eachorder.total | currency}}</td>
+        </tbody>
+      </table>
+    <br>
+    <br>
+    <div class="col-md-12 col-xs-12" style="height:50px;color:#fff;background:#330033;font-size:14px;line-height:50px">Customer</div>
+    <div class="col-md-12 col-xs-12">
+
+      <h5>NAME : {{eachorder.owner.name}}</h5>
+      <h5>EMAIL : {{eachorder.owner.email}}</h5>
+      <h5>PHONE : {{eachorder.owner.phone}}</h5>
+      <h5>ADDRESS : {{eachorder.owner.address.address}}</h5>
+      <h5>CITY : {{eachorder.owner.address.city}}</h5>
+      <h5>ZIPCODE : {{eachorder.owner.address.zipcode}}</h5>
+    </div>
+
+  </div>
+
+  <div class="col-md-12 col-xs-12" ng-show="tab===5">
+
+    <h3>EDIT PRODUCTS</h3>
+    <hr>
+
+    <div class="col-md-8 col-md-offset-2 padding0">
+      <span>Choose Category:</span>
+      <select class="form-control" ng-model="editCategory">
+        <% for(var i=0;i<categories.length;i++) { %>
+          <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+        <% } %>
+      </select>
+      <br>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <td>Name</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="product in allproducts | filter:categoryFilter">
+            <td class="padding0">{{product.name}}</td>
+            <td class="padding0">
+              <div class="pull-right">
+                <button class="btn btn-primary" ng-click="viewProduct(product)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+                <button class="btn btn-danger" style="margin-left:1px" ng-click="deleteProduct(product._id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-12 col-xs-12" ng-show="tab===6">
+    <h3>EDIT PRODUCT</h3>
+    <hr>
+    <form class="form-group col-xs-12 col-md-offset-3 col-md-6 padding0" style="list-style:none">
+      <span>Category: </span>
+      <select class="form-control" ng-model="eachProduct.category">
+        <% for(var i=0;i<categories.length;i++) { %>
+          <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+        <% } %>
+      </select>
+      <br>
+      <label for="productName">Product Name:</label>
+      <input type="text" class="form-control" id="productName" placeholder="Category Name" ng-model="eachProduct.name">
+      <br>
+      <label for="productImage">Picture: </label>
+      <input type="text" class="form-control" id="productImage" placeholder="Image" ng-model="eachProduct.image">
+      <br>
+      <label for="productType">Type: </label>
+      <input type="text" class="form-control" id="productType" placeholder="Type" ng-model="eachProduct.type">
+      <br>
+      <label for="productDescription">Description: </label>
+      <input type="text" class="form-control" id="productDescription" placeholder="Description" ng-model="eachProduct.description">
+      <br>
+      <label for="productPrice">Price: </label>
+      <input type="text" class="form-control" id="productPrice" placeholder="Price" ng-model="eachProduct.price">
+      <br>
+      <label for="productDiscount">Discount: </label>
+      <input type="text" class="form-control" id="productDiscount" placeholder="Discount" ng-model="eachProduct.discount">
+      <br>
+      <label for="productQuantity">Quantity: </label>
+      <input type="text" class="form-control" id="productQuantity" placeholder="Quantity" ng-model="eachProduct.quantity">
+      <br>
+      <button type="submit" class="btn btn-default" ng-click="editProduct(eachProduct)">EDIT PRODUCT</button>
+    </form>
+  </div>
+
+</div>
